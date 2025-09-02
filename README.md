@@ -21,6 +21,69 @@ alpha
   - operator: 'equals' | 'not-equals' | 'contains' | 'not-contains' | 'greater-than' | 'less-than'
   - targetValue: the value you wish to compare to the value of `compareProperty`.
 
+### Example Implementation
+
+```tsx
+  ...,
+  {
+    name: 'species',
+    label: 'Pet Species'
+    type: 'relationship',
+    hasMany: false,
+    relationTo: 'species'
+  },
+  ConditionalField({
+    fieldProps: {
+      name: 'breed',
+      type: 'select',
+      options: [
+        {
+          label: 'Tabby',
+          value: 'tabby'
+        },
+        {
+          label: 'Ragdoll',
+          value: 'ragdoll'
+        }
+      ]
+      required: false,
+      },
+      admin: {
+        position: 'sidebar',
+        description: 'Select the breed for this cat.',
+      },
+    },
+    conditions: {
+      compareField: 'species', // the local field in this particular fieldset.
+      compareProperty: 'slug', // the property on the document you wish to compare (this is what would usually be a virtual field)
+      operator: 'equals',
+      targetValue: 'cat', // what should the slug equal to show this field?
+      collection: 'species', // this is the collection in which the options for the provided compareField live.
+    },
+  }),
+  // Another example to show variance:
+  ConditionalField({
+    fieldProps: {
+      name: 'fishSpecies',
+      type: 'text',
+      required: false,
+      },
+      admin: {
+        position: 'sidebar',
+        description: 'Enter the species for this pet fish.',
+      },
+    },
+    conditions: {
+      compareField: 'species', // the local field in this particular fieldset.
+      compareProperty: 'slug', // the property on the document you wish to compare (this is what would usually be a virtual field)
+      operator: 'equals',
+      targetValue: 'fish', // what should the slug equal to show this field?
+      collection: 'species', // the collection in which the options for the provided compareField live.
+    },
+  }),
+  ...
+```
+
 ### Supported Payload Versions
 
 - 2.x.x
