@@ -15,21 +15,31 @@ alpha
 ### Config / Properties
 
 - fieldProps: a valid field object for a Payload field. This should support all fields that support a [validate](https://payloadcms.com/docs/fields/overview#validation) object.
+
 - conditions
   - compareField: the relationship field you wish to query,
   - compareProperty: the property on the `compareField` you wish to compare against.
   - operator: 'equals' | 'not-equals' | 'contains' | 'not-contains' | 'greater-than' | 'less-than'
   - targetValue: the value you wish to compare to the value of `compareProperty`.
+  - collection: the collection associated with the provided compareField.
 
 ### Example Implementation
+
+Here is a basic example of how you might want to use this field in a partial config for a collections fields:
 
 ```tsx
   ...,
   {
+    name: 'name',
+    label: 'Pet Name',
+    type: 'text',
+    required: true
+  },
+  {
     name: 'species',
     label: 'Pet Species'
     type: 'relationship',
-    hasMany: false,
+    hasMany: false, // Does not currently support compareFields that have hasMany set to true.
     relationTo: 'species'
   },
   ConditionalField({
